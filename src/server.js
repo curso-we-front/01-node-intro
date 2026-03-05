@@ -11,18 +11,39 @@
  * - Usa únicamente módulos nativos: http, fs, path, url
  */
 
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
-const { parse } = require('url');
+const http = require("http");
+const fs = require("fs");
+const path = require("path");
+const { parse } = require("url");
+const { getArticles } = require("./scripts/readArticles");
 
 const PORT = process.env.PORT || 3000;
-const DATA_PATH = path.join(__dirname, '../data/articles.json');
+const DATA_PATH = path.join(__dirname, "../data/articles.json");
+const allArticles = getArticles(DATA_PATH);
 
 // TODO: implementar
 
+function getIdArticles(id) {
+  const idNum = Number(id);
+  const idArticle = allArticles.find((articles) => articles.id === idNum);
+  return idArticle;
+}
+
 const server = http.createServer((req, res) => {
-  // TODO: implementar el router
+  if (req.method === "GET" && req.url === "/") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Blog API", version: "1.0" }));
+  } else if (req.method === "GET" && req.url === "/articles") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(allArticles));
+  } else if (req.method === "GET" && req.url.startsWith("/articles/")) {
+    const id = req.url.split("/")[2];
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(getIdArticles(id)));
+  }else{
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({message: "Page not Found"}));
+  }
 });
 
 server.listen(PORT, () => {

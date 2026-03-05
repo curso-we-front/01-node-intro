@@ -10,7 +10,11 @@
  * @returns {string}
  */
 function slugify(title) {
-  // TODO: implementar
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]/g, "")
+    .replace(/\s+/g, "-");
 }
 
 /**
@@ -20,7 +24,16 @@ function slugify(title) {
  * @returns {string}
  */
 function formatDate(date) {
-  // TODO: implementar
+  let parsedDate = new Date(date);
+
+  let dateFormat =
+    parsedDate.getDate() +
+    "/" +
+    (parsedDate.getMonth() + 1) +
+    "/" +
+    parsedDate.getFullYear();
+
+  return dateFormat;
 }
 
 /**
@@ -30,8 +43,9 @@ function formatDate(date) {
  * @param {number} maxLength
  * @returns {string}
  */
-function truncate(text, maxLength) {
-  // TODO: implementar
+function truncate(text, maxlength) {
+  return text.length > maxlength ? text.slice(0, maxlength) + "…" : text;
 }
+
 
 module.exports = { slugify, formatDate, truncate };
