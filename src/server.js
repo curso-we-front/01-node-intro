@@ -32,17 +32,22 @@ function getIdArticles(id) {
 const server = http.createServer((req, res) => {
   if (req.method === "GET" && req.url === "/") {
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ message: "Blog API", version: "1.0" }));
-  } else if (req.method === "GET" && req.url === "/articles") {
+    return res.end(JSON.stringify({ message: "Blog API", version: "1.0" }));
+  }
+
+  if (req.method === "GET" && req.url === "/articles") {
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(allArticles));
-  } else if (req.method === "GET" && req.url.startsWith("/articles/")) {
+    return res.end(JSON.stringify(allArticles));
+  }
+
+  if (req.method === "GET" && req.url.startsWith("/articles/")) {
     const id = req.url.split("/")[2];
+
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(getIdArticles(id)));
-  }else{
+    return res.end(JSON.stringify(getIdArticles(id)));
+  } else {
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({message: "Page not Found"}));
+    return res.end(JSON.stringify({ message: "Page not Found" }));
   }
 });
 

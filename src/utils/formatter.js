@@ -25,14 +25,7 @@ function slugify(title) {
  */
 function formatDate(date) {
   let parsedDate = new Date(date);
-
-  let dateFormat =
-    parsedDate.getDate() +
-    "/" +
-    (parsedDate.getMonth() + 1) +
-    "/" +
-    parsedDate.getFullYear();
-
+  const dateFormat = parsedDate.toLocaleDateString("es-ES");
   return dateFormat;
 }
 
