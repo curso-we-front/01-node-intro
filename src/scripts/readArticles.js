@@ -11,8 +11,23 @@
  * Usa únicamente módulos nativos: fs, path
  */
 
-const fs = require('fs');
-const path = require('path');
-const { slugify, formatDate } = require('../utils/formatter');
+const fs = require("fs");
+const path = require("path");
+const { slugify, formatDate } = require("../utils/formatter");
+
+function getArticles(filePath) {
+  const jsonString = fs.readFileSync(filePath, "utf8");
+  const articles = JSON.parse(jsonString);
+
+  const publishedArticles = articles.filter((article) => article.published);
+
+  return publishedArticles.map((article) => ({
+    id: article.id,
+    title: article.title,
+    slug: slugify(article.title),
+    date: formatDate(article.createdAt),
+  }));
+}
+module.exports = { getArticles };
 
 // TODO: implementar
