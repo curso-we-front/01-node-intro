@@ -11,8 +11,31 @@
  * Usa únicamente módulos nativos: fs, path
  */
 
-const fs = require('fs');
-const path = require('path');
-const { slugify, formatDate } = require('../utils/formatter');
+const fs = require("fs");
+const path = require("path");
+const { slugify, formatDate } = require("../utils/formatter");
 
-// TODO: implementar
+function refactorPublishedArticles(dataPath) {
+  const json = fs.readFileSync(dataPath, "utf8");
+  const articles = JSON.parse(json);
+  const filteredArticles = articles
+    .filter((article) => article.published)
+    .map((article) => {
+      return {
+        Titulo: article.title,
+        Slug: slugify(article.title),
+        Fecha: formatDate(article.createdAt),
+      };
+    });
+  return filteredArticles;
+}
+
+function filterArticles(dataPath) {
+  const json = fs.readFileSync(dataPath, "utf8");
+  const articles = JSON.parse(json);
+  const filteredArticles = articles
+    .filter((article) => article.published);
+  return filteredArticles;
+}
+
+module.exports = filterArticles;

@@ -2,7 +2,7 @@
  * Tarea 1: Implementa las siguientes funciones de utilidad.
  * No cambies los nombres ni las firmas de las funciones.
  */
-
+// https://github.com/curso-we-front/01-node-intro
 /**
  * Convierte un título en un slug URL-friendly.
  * Ejemplo: "Hola Mundo!" → "hola-mundo"
@@ -10,7 +10,12 @@
  * @returns {string}
  */
 function slugify(title) {
-  // TODO: implementar
+  return title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9\s]/g, "")
+    .replace(/\s+/g, "-");
 }
 
 /**
@@ -20,7 +25,11 @@ function slugify(title) {
  * @returns {string}
  */
 function formatDate(date) {
-  // TODO: implementar
+  return new Date(date).toLocaleDateString("es-ES", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
 }
 
 /**
@@ -31,7 +40,10 @@ function formatDate(date) {
  * @returns {string}
  */
 function truncate(text, maxLength) {
-  // TODO: implementar
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + "...";
+  }
+  return text;
 }
 
 module.exports = { slugify, formatDate, truncate };
