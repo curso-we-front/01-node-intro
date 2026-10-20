@@ -11,6 +11,12 @@
  */
 function slugify(title) {
   // TODO: implementar
+  return title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "");
 }
 
 /**
@@ -21,6 +27,12 @@ function slugify(title) {
  */
 function formatDate(date) {
   // TODO: implementar
+  const objectDate = new Date(date);
+  const day = String(objectDate.getDate()).padStart(2, "0");
+  const month = String(objectDate.getMonth() + 1).padStart(2, "0");
+  const year = objectDate.getFullYear();
+
+  return day + "/" + month + "/" + year;
 }
 
 /**
@@ -32,6 +44,10 @@ function formatDate(date) {
  */
 function truncate(text, maxLength) {
   // TODO: implementar
+  if (text.length > maxLength) {
+    return text.slice(0, maxLength) + "...";
+  }
+  return text;
 }
 
 module.exports = { slugify, formatDate, truncate };
